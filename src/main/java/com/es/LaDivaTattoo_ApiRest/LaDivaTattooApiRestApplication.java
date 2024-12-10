@@ -10,4 +10,5 @@ public class LaDivaTattooApiRestApplication {
 		SpringApplication.run(LaDivaTattooApiRestApplication.class, args);
 	}
 
+
 }
