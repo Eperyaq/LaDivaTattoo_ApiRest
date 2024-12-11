@@ -23,7 +23,7 @@ public class Usuario {
 
     private String roles;
 
-    @JoinColumn()
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<Cita> citas;
 
     public Usuario() {}

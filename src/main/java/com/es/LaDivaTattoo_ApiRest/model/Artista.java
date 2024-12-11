@@ -1,9 +1,8 @@
 package com.es.LaDivaTattoo_ApiRest.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "artistas")
@@ -15,12 +14,22 @@ public class Artista {
 
     private String especialidad;
 
-    public Artista() {}
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    private List<Cita> citas;
 
-    public Artista(Long id, String nombre, String especialidad) {
+    public Artista(Long id, String nombre, String especialidad, List<Cita> citas) {
         this.id = id;
         this.nombre = nombre;
         this.especialidad = especialidad;
+        this.citas = citas;
+    }
+
+    public Artista() {}
+
+    public Artista(String nombre, String especialidad, List<Cita> citas) {
+        this.nombre = nombre;
+        this.especialidad = especialidad;
+        this.citas = citas;
     }
 
     public Long getId() {
@@ -45,5 +54,13 @@ public class Artista {
 
     public void setEspecialidad(String especialidad) {
         this.especialidad = especialidad;
+    }
+
+    public List<Cita> getCitas() {
+        return citas;
+    }
+
+    public void setCitas(List<Cita> citas) {
+        this.citas = citas;
     }
 }
