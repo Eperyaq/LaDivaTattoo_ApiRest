@@ -33,6 +33,7 @@ Es esencial para la autenticación, autorización, y gestión de los perfiles de
 | `contra` | VARCHAR(255)  | Contraseña encriptada.                        |
 | `numtel` | VARCHAR(15)   | Número de teléfono del usuario.               |
 | `rol`    | ENUM          | Rol del usuario: `cliente` o `administrador`. |
+| `citas`       | LIST(CITAS) | Lista de citas que tiene el usuario           |
 
 
 ## Tabla: `Artistas`
@@ -48,6 +49,7 @@ específico según sus preferencias o necesidades para las citas.
 | `id`           | INT (PK)      | Identificador único del artista.               |
 | `nombre`       | VARCHAR(100)  | Nombre del artista.                            |
 | `especialidad` | VARCHAR(100)  | Especialización del artista (e.g., realismo).  |
+| `citas`       | LIST(CITAS) | Lista de citas que tiene el artista                   |
 
 
 ## Tabla: `Citas`
@@ -58,13 +60,14 @@ Esta tabla gestiona el registro de citas entre los usuarios y los artistas. Incl
 el artista asignado, la fecha de la cita y una descripción del diseño o solicitud del cliente.
 Facilita la organización y seguimiento de las citas programadas en el sistema.
 
-| Campo         | Tipo          | Descripción                                           |
-|---------------|---------------|-------------------------------------------------------|
-| `id`          | INT (PK)      | Identificador único de la cita.                       |
-| `id_usuario`  | INT (FK)      | Relación con `usuario`. Usuario que solicitó la cita. |
-| `id_artista`  | INT (FK)      | Relación con `artista`. Artista asignado.             |
-| `fecha`       | DATE          | Fecha de la cita.                                     |
-| `descripcion` | TEXT          | Descripción del diseño solicitado.                    |
+| Campo         | Tipo        | Descripción                                           |
+|---------------|-------------|-------------------------------------------------------|
+| `id`          | INT (PK)    | Identificador único de la cita.                       |
+| `id_usuario`  | INT (FK)    | Relación con `usuario`. Usuario que solicitó la cita. |
+| `id_artista`  | INT (FK)    | Relación con `artista`. Artista asignado.             |
+| `fecha`       | DATE        | Fecha de la cita.                                     |
+| `descripcion` | TEXT        | Descripción del diseño solicitado.                    |
+
 
 --- 
 ![Diagrama Entidad relacion de las tablas Usuario, Citas, Artistas](Diagrama%20Entidad-Relacion.jpeg)
