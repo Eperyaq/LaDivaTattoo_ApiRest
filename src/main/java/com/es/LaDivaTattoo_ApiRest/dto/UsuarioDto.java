@@ -10,6 +10,8 @@ public class UsuarioDto {
 
     private String nombre;
 
+    private String email;
+
     private String password;
 
     private String numTel;
@@ -18,9 +20,19 @@ public class UsuarioDto {
 
     private List<Cita> citas;
 
-    public UsuarioDto(Long id, String nombre, String password, String numTel, String roles, List<Cita> citas) {
+    public UsuarioDto(Long id, String nombre, String email, String password, String numTel, String roles, List<Cita> citas) {
         this.id = id;
         this.nombre = nombre;
+        this.email = email;
+        this.password = password;
+        this.numTel = numTel;
+        this.roles = roles;
+        this.citas = citas;
+    }
+
+    public UsuarioDto(String nombre, String email, String password, String numTel, String roles, List<Cita> citas) {
+        this.nombre = nombre;
+        this.email = email;
         this.password = password;
         this.numTel = numTel;
         this.roles = roles;
@@ -41,6 +53,14 @@ public class UsuarioDto {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
