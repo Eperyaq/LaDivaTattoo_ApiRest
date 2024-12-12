@@ -1,33 +1,21 @@
-package com.es.LaDivaTattoo_ApiRest.model;
+package com.es.LaDivaTattoo_ApiRest.dto;
 
-import jakarta.persistence.*;
+import com.es.LaDivaTattoo_ApiRest.model.Cita;
+
 
 import java.util.List;
 
-@Entity
-@Table(name = "artistas")
-public class Artista {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ArtistaDto {
     private Long id;
 
     private String nombre;
 
     private String especialidad;
 
-    @OneToMany(mappedBy = "artista", fetch = FetchType.LAZY)
     private List<Cita> citas;
 
-    public Artista(Long id, String nombre, String especialidad, List<Cita> citas) {
+    public ArtistaDto(Long id, String nombre, String especialidad, List<Cita> citas) {
         this.id = id;
-        this.nombre = nombre;
-        this.especialidad = especialidad;
-        this.citas = citas;
-    }
-
-    public Artista() {}
-
-    public Artista(String nombre, String especialidad, List<Cita> citas) {
         this.nombre = nombre;
         this.especialidad = especialidad;
         this.citas = citas;
