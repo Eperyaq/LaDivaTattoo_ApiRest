@@ -1,5 +1,6 @@
 package com.es.LaDivaTattoo_ApiRest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class Artista {
     private String especialidad;
 
     @OneToMany(mappedBy = "artista", fetch = FetchType.LAZY)
+    @JsonIgnore //Le pongo esto porque si no se me crea un bucle infinito en la respuesta y me aparece el artista completo en cada cita
     private List<Cita> citas;
 
     public Artista(Long id, String nombre, String especialidad, List<Cita> citas) {

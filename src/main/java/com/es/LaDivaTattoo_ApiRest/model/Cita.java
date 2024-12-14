@@ -1,5 +1,6 @@
 package com.es.LaDivaTattoo_ApiRest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -14,12 +15,15 @@ public class Cita {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
+    @JsonIgnore
     private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "id_artista", nullable = false)
+    @JsonIgnore //Le pongo esto porque si no se me crea un bucle infinito en la respuesta y me aparece el usuario completo en cada cita
     private Artista artista;
 
+    @Temporal(TemporalType.TIMESTAMP)
    private Date fecha;
 
    private String descripcion;

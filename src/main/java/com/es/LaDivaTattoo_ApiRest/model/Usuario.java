@@ -1,5 +1,6 @@
 package com.es.LaDivaTattoo_ApiRest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class Usuario {
     private String roles;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    @JsonIgnore //Le pongo esto porque si no se me crea un bucle infinito en la respuesta y me aparece el usuario completo en cada cita
     private List<Cita> citas;
 
     public Usuario() {}

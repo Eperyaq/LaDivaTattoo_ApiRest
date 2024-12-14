@@ -12,6 +12,8 @@ public class UsuarioLoginDto {
         this.roles = roles;
     }
 
+    public UsuarioLoginDto() {}
+
     public String getNombre() {
         return nombre;
     }

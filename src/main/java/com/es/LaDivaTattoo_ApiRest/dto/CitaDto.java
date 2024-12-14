@@ -25,6 +25,8 @@ public class CitaDto {
         this.descripcion = descripcion;
     }
 
+    public CitaDto() {}
+
     public long getId() {
         return id;
     }

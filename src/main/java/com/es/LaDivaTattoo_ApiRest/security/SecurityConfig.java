@@ -48,31 +48,32 @@ public class SecurityConfig {
 
         return http
                 .csrf(csrf -> csrf.disable()) // Deshabilitamos "Cross-Site Request Forgery" (CSRF) (No lo trataremos en este ciclo)
-                .authorizeHttpRequests(auth -> auth // Filtros para securizar diferentes endpoints de la aplicación
+                .authorizeHttpRequests(auth -> auth// Filtros para securizar diferentes endpoints de la aplicación
 
-                                // Endpoints públicos
-                                .requestMatchers("/usuarios/login", "/usuarios/register").permitAll()
-                                // Endpoints protegidos (requieren autenticación)
-                                .requestMatchers(HttpMethod.GET, "/usuarios/byNombre/{nombre}").authenticated()
-                                .requestMatchers(HttpMethod.GET, "/usuarios/{id}").authenticated()
-                                .requestMatchers(HttpMethod.PUT, "/usuarios/{id}").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/usuarios/{id}").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/usuarios").hasRole("ADMIN")
+                        // Endpoints públicos
+                        .requestMatchers("/usuarios/login", "/usuarios/registrar").permitAll()
 
-                                .requestMatchers(HttpMethod.GET, "/artistas/{id}").authenticated()
-                                .requestMatchers(HttpMethod.POST, "/artistas").authenticated()
-                                .requestMatchers(HttpMethod.PUT, "/artistas/{id}").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/artistas/{id}").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/artistas").hasRole("ADMIN")
+                        // Endpoints protegidos (requieren autenticación)
+                        .requestMatchers(HttpMethod.GET, "/usuarios/{id}").authenticated() //Que tenga el mismo nombre que el que busca
+                        .requestMatchers(HttpMethod.GET, "/usuarios").hasRole("ADMIN") //Si no que sea admin
+                        .requestMatchers(HttpMethod.PUT, "/usuarios/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/usuarios/{id}").hasRole("ADMIN")
 
-                                .requestMatchers(HttpMethod.GET, "/citas/{id}").authenticated()
-                                .requestMatchers(HttpMethod.GET, "/citas").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/citas").authenticated()
-                                .requestMatchers(HttpMethod.GET, "/usuarios/{id}/citas").authenticated()
-                                .requestMatchers(HttpMethod.GET, "/artistas/{id}/citas").authenticated()
-                                .requestMatchers(HttpMethod.GET, "/citas").hasRole("ADMIN")
 
-                                .anyRequest().authenticated() // Para el resto de peticiones, el usuario debe estar autenticado
+                        .requestMatchers(HttpMethod.GET, "/artistas/{id}").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/artistas").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/artistas/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/artistas/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/artistas").hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.GET, "/citas/{id}").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/citas").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/citas").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/usuarios/{id}/citas").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/artistas/{id}/citas").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/citas").hasRole("ADMIN")
+
+                        .anyRequest().authenticated() // Para el resto de peticiones, el usuario debe estar autenticado
                 )
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults())) // Establecemos el que el control de autenticación se realice por JWT
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

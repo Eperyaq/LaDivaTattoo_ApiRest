@@ -99,7 +99,7 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
     - **Quien puede usar este endpoint**
       - Admin
     - **Errores:**
-        - `500 Internal Server Error`: Error en el servidor al recuperar los usuarios.
+      - `404 Not Found`: No se encuentran los usuarios.
 
 
 3. **Obtener usuario por ID**
@@ -110,7 +110,6 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
       - La persona logueada debe ser la misma que realiza la busqueda
    - **Errores:**
      - `404 Not Found`: Usuario no encontrado.
-     - `500 Internal Server Error`: Error en el servidor al recuperar los usuarios.
      
      
 
@@ -125,7 +124,6 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
       - Admin
     - **Errores**
       - `404 Not Found`: El usuario que se va a actualizar no se encuentra
-      - `500 Internal Server Error`: Error en el servidor al recuperar los usuarios.
       
 
 5. **Eliminar usuario**
@@ -135,7 +133,6 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
       - Admin
     - **Errores**
       - `404 Not Found`: El usuario que se va a borrar no se encuentra
-      - `500 Internal Server Error`: Error en el servidor al recuperar los usuarios.
 
 6. **login**
     - **POST**
@@ -146,7 +143,6 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
      - Cualquiera
     - **Errores**
         - `404 Not Found`: El usuario que se va a actualizar no se encuentra
-        - `500 Internal Server Error`: Error en el servidor al recuperar los usuarios.
         - `401 Unauthorized`: El correo o la contraseña son incorrectos
 
 ---
@@ -162,7 +158,6 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
      - Cualquier artista
     - **Errores**
         - `400 Bad Request`: Los datos introducidos no son correctos o no cumplen el formato
-        - `500 Internal Server Error`: Error en el servidor al recuperar los artistas.
 
 
 2. **Obtener todos los artistas**
@@ -171,7 +166,8 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
     - **Quien puede usar este endpoint**
        - Admin
     - **Errores**
-        - `500 Internal Server Error`: Error en el servidor al recuperar los artistas.
+      - `404 Not Found`: El Artista no se encuentra.
+           
 
 
 3. **Obtener artista por ID**
@@ -181,7 +177,6 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
        - Admin
     - **Errores**
         - `404 Not Found`: Artista no encontrado.
-        - `500 Internal Server Error`: Error en el servidor al recuperar los artistas.
 
 
 4. **Actualizar artista**
@@ -194,8 +189,6 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
     - **Errores**
         - `400 Bad Request`: los datos introducidos para actualizar no son correctos.
         - `404 Not Found`: El artista a actualizar no se encuentra.
-        - `500 Internal Server Error`: Error en el servidor al recuperar los artistaas.
-
 
 5. **Eliminar artista**
     - **DELETE** `/artistas/{id}`
@@ -204,7 +197,6 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
       - Admin
     - **Errores**
       - `404 Not Found`: El artista a eliminar no se encuentra.
-      - `500 Internal Server Error`: Error en el servidor al recuperar los artistas.
       
 
 ---

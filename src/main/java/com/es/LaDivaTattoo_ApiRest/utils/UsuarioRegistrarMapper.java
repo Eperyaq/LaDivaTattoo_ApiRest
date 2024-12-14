@@ -27,7 +27,6 @@ public class UsuarioRegistrarMapper {
         }
 
         return new Usuario(
-                null, // El id será generado automáticamente, así que lo pasamos como null
                 usuarioDto.getNombre(),
                 usuarioDto.getEmail(),
                 usuarioDto.getPassword(),

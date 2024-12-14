@@ -39,6 +39,8 @@ public class UsuarioDto {
         this.citas = citas;
     }
 
+    public UsuarioDto() {}
+
     public Long getId() {
         return id;
     }

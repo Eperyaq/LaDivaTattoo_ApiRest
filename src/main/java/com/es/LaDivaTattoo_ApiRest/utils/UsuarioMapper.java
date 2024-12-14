@@ -12,8 +12,8 @@ public class UsuarioMapper {
         }
         return new UsuarioDto(
                 usuario.getId(),
-                usuario.getEmail(),
                 usuario.getNombre(),
+                usuario.getEmail(),
                 usuario.getPassword(),
                 usuario.getNumtel(),
                 usuario.getRoles(),

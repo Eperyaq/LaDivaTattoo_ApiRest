@@ -21,6 +21,8 @@ public class ArtistaDto {
         this.citas = citas;
     }
 
+    public ArtistaDto() {}
+
     public Long getId() {
         return id;
     }

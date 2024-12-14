@@ -30,6 +30,8 @@ public class UsuarioRegistrarDto {
         this.roles = roles;
     }
 
+    public UsuarioRegistrarDto() {}
+
     public Long getId() {
         return id;
     }
