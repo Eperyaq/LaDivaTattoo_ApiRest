@@ -80,7 +80,7 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
 ## **Usuarios**
 
 1. **Crear usuario**
-    - **POST** `/usuarios`
+    - **POST** `/registrar`
     - Crea un nuevo usuario en el sistema.
     - **Lógica de negocio**
       - Comprobar que la contraseña tenga minimo 5 dígitos y que contenga numero y mayus
@@ -90,7 +90,7 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
       - Cualquier persona
     - **Errores:**
        - `400 Bad Request`: Datos faltantes o formato inválido.
-       - `409 Conflict`: El correo electrónico ya está registrado.
+       - `409 Conflict`: El usuario ya está registrado.
 
 
 2. **Obtener todos los usuarios**
@@ -150,14 +150,15 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
 ## **Artistas**
 
 1. **Crear artista**
-    - **POST** `/artistas`
+    - **POST** `/registrar`
     - Crea un nuevo artista en el sistema.
     - **Lógica de negocio**
         - Comprobar que la contraseña tenga minimo 5 dígitos y que contenga numero y mayus
    - **Quien puede usar este endpoint**
-     - Cualquier artista
+     - Admin
     - **Errores**
         - `400 Bad Request`: Los datos introducidos no son correctos o no cumplen el formato
+        - `409 Conflict`: El artista ya está registrado.
 
 
 2. **Obtener todos los artistas**

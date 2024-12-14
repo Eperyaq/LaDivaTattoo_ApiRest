@@ -59,12 +59,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/usuarios/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/usuarios/{id}").hasRole("ADMIN")
 
-
-                        .requestMatchers(HttpMethod.GET, "/artistas/{id}").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/artistas").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/artistas").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/artistas/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/artistas").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/artistas/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/artistas/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/artistas").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.GET, "/citas/{id}").authenticated()
                         .requestMatchers(HttpMethod.GET, "/citas").hasRole("ADMIN")

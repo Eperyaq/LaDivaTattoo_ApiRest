@@ -11,6 +11,7 @@ public class ArtistaMapper {
         }
         return new ArtistaDto(
                 artista.getId(),
+                artista.getPassword(),
                 artista.getNombre(),
                 artista.getEspecialidad(),
                 artista.getCitas()
@@ -24,6 +25,7 @@ public class ArtistaMapper {
         }
         return new Artista(
                 artistaDto.getId(),
+                artistaDto.getPassword(),
                 artistaDto.getNombre(),
                 artistaDto.getEspecialidad(),
                 artistaDto.getCitas()

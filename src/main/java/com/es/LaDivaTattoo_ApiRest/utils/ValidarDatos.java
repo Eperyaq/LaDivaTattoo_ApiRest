@@ -1,5 +1,6 @@
 package com.es.LaDivaTattoo_ApiRest.utils;
 
+import com.es.LaDivaTattoo_ApiRest.dto.ArtistaDto;
 import com.es.LaDivaTattoo_ApiRest.dto.UsuarioDto;
 import com.es.LaDivaTattoo_ApiRest.dto.UsuarioRegistrarDto;
 import com.es.LaDivaTattoo_ApiRest.error.exception.BadRequestException;
@@ -36,6 +37,15 @@ public class ValidarDatos {
         }
 
         if (!usuarioDto.getPassword().matches("^(?=.*[A-Z])(?=.*\\d).{5,}$")) {
+            throw new BadRequestException("La contraseña debe tener al menos 5 caracteres, una mayúscula y un número.");
+        }
+
+    }
+
+    public static void datosCorrectosArtista(ArtistaDto artistaDto){
+        //Si no da ninguna excepción esta bien y por ende no hace nada
+
+        if (!artistaDto.getPassword().matches("^(?=.*[A-Z])(?=.*\\d).{5,}$")) {
             throw new BadRequestException("La contraseña debe tener al menos 5 caracteres, una mayúscula y un número.");
         }
 

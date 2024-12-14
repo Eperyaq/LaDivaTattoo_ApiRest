@@ -36,10 +36,6 @@ public class UsuarioController {
     @Autowired
     private TokenService tokenService;
 
-    @Autowired
-    private UsuarioRepository repository;
-
-
     @PostMapping("/login")
     public String login(
             @RequestBody UsuarioLoginDto usuarioLoginDto
