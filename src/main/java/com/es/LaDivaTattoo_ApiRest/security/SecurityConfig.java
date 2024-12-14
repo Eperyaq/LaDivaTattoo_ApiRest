@@ -8,11 +8,13 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +24,8 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+@Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Autowired
@@ -45,16 +49,28 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable()) // Deshabilitamos "Cross-Site Request Forgery" (CSRF) (No lo trataremos en este ciclo)
                 .authorizeHttpRequests(auth -> auth // Filtros para securizar diferentes endpoints de la aplicación
-                                .requestMatchers("/usuarios/login", "/usuarios/register").permitAll() // Filtro que deja pasar todas las peticiones que vayan a los endpoints que definamos
-                                .requestMatchers(HttpMethod.GET,"/usuarios/byNombre/{nombre}").authenticated()
-                                .requestMatchers(HttpMethod.GET,"/productos/byNombre/{nombre}").authenticated()
-                                .requestMatchers(HttpMethod.GET,"/productos/{id}").authenticated()
-                                .requestMatchers(HttpMethod.GET,"/productos/byNombre/{nombre}").authenticated()
-                                .requestMatchers(HttpMethod.GET,"/productos/asc").authenticated()
-                                .requestMatchers(HttpMethod.GET,"/productos/desc").authenticated()
-                                .requestMatchers(HttpMethod.POST,"/productos/").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE,"/productos/{id}").hasRole("ADMIN")
-//                        .requestMatchers("/productos/**").authenticated()
+
+                                // Endpoints públicos
+                                .requestMatchers("/usuarios/login", "/usuarios/register").permitAll()
+                                // Endpoints protegidos (requieren autenticación)
+                                .requestMatchers(HttpMethod.GET, "/usuarios/byNombre/{nombre}").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/usuarios/{id}").authenticated()
+                                .requestMatchers(HttpMethod.PUT, "/usuarios/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/usuarios/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/usuarios").hasRole("ADMIN")
+
+                                .requestMatchers(HttpMethod.GET, "/artistas/{id}").authenticated()
+                                .requestMatchers(HttpMethod.POST, "/artistas").authenticated()
+                                .requestMatchers(HttpMethod.PUT, "/artistas/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/artistas/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/artistas").hasRole("ADMIN")
+
+                                .requestMatchers(HttpMethod.GET, "/citas/{id}").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/citas").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/citas").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/usuarios/{id}/citas").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/artistas/{id}/citas").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/citas").hasRole("ADMIN")
 
                                 .anyRequest().authenticated() // Para el resto de peticiones, el usuario debe estar autenticado
                 )

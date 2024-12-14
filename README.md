@@ -86,6 +86,8 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
       - Comprobar que la contraseña tenga minimo 5 dígitos y que contenga numero y mayus
       - Que el email sea único (comprobar válido)
       - Que el telefono no se repita
+    - **Quien puede usar este endpoint** 
+      - Cualquier persona
     - **Errores:**
        - `400 Bad Request`: Datos faltantes o formato inválido.
        - `409 Conflict`: El correo electrónico ya está registrado.
@@ -94,6 +96,8 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
 2. **Obtener todos los usuarios**
     - **GET** `/usuarios`
     - Devuelve una lista de todos los usuarios registrados.
+    - **Quien puede usar este endpoint**
+      - Admin
     - **Errores:**
         - `500 Internal Server Error`: Error en el servidor al recuperar los usuarios.
 
@@ -101,6 +105,9 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
 3. **Obtener usuario por ID**
     - **GET** `/usuarios/{id}`
     - Devuelve la información de un usuario específico.
+    - **Quien puede usar este endpoint**
+      - Admin
+      - La persona logueada debe ser la misma que realiza la busqueda
    - **Errores:**
      - `404 Not Found`: Usuario no encontrado.
      - `500 Internal Server Error`: Error en el servidor al recuperar los usuarios.
@@ -113,7 +120,9 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
     - **Lógica de negocio**
       - Comprobar que la contraseña tenga minimo 5 dígitos y que contenga numero y mayus
       - Que el email sea único
-      - Que el telefono no se repitad
+      - Que el telefono no se repita
+    - **Quien puede usar este endpoint**
+      - Admin
     - **Errores**
       - `404 Not Found`: El usuario que se va a actualizar no se encuentra
       - `500 Internal Server Error`: Error en el servidor al recuperar los usuarios.
@@ -122,15 +131,19 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
 5. **Eliminar usuario**
     - **DELETE** `/usuarios/{id}`
     - Elimina un usuario del sistema.
+    - **Quien puede usar este endpoint**
+      - Admin
     - **Errores**
-       - `404 Not Found`: El usuario que se va a borrar no se encuentra
-       - `500 Internal Server Error`: Error en el servidor al recuperar los usuarios.
+      - `404 Not Found`: El usuario que se va a borrar no se encuentra
+      - `500 Internal Server Error`: Error en el servidor al recuperar los usuarios.
 
 6. **login**
     - **POST**
     - Inicia sesión un usuario
     - **Lógica de negocio**
         - Comprobar que el usuario y la contraseña coinciden
+   - **Quien puede usar este endpoint**
+     - Cualquiera
     - **Errores**
         - `404 Not Found`: El usuario que se va a actualizar no se encuentra
         - `500 Internal Server Error`: Error en el servidor al recuperar los usuarios.
@@ -145,6 +158,8 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
     - Crea un nuevo artista en el sistema.
     - **Lógica de negocio**
         - Comprobar que la contraseña tenga minimo 5 dígitos y que contenga numero y mayus
+   - **Quien puede usar este endpoint**
+     - Cualquier artista
     - **Errores**
         - `400 Bad Request`: Los datos introducidos no son correctos o no cumplen el formato
         - `500 Internal Server Error`: Error en el servidor al recuperar los artistas.
@@ -153,6 +168,8 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
 2. **Obtener todos los artistas**
     - **GET** `/artistas`
     - Devuelve una lista de todos los artistas registrados.
+    - **Quien puede usar este endpoint**
+       - Admin
     - **Errores**
         - `500 Internal Server Error`: Error en el servidor al recuperar los artistas.
 
@@ -160,6 +177,8 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
 3. **Obtener artista por ID**
     - **GET** `/artistas/{id}`
     - Devuelve la información de un artista específico.
+    - **Quien puede usar este endpoint**
+       - Admin
     - **Errores**
         - `404 Not Found`: Artista no encontrado.
         - `500 Internal Server Error`: Error en el servidor al recuperar los artistas.
@@ -170,6 +189,8 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
     - Actualiza la información de un artista.
     - **Lógica de negocio**
         - Comprobar que la contraseña tenga minimo 5 dígitos y que contenga numero y mayus
+    - **Quien puede usar este endpoint**
+         - Admin
     - **Errores**
         - `400 Bad Request`: los datos introducidos para actualizar no son correctos.
         - `404 Not Found`: El artista a actualizar no se encuentra.
@@ -179,6 +200,8 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
 5. **Eliminar artista**
     - **DELETE** `/artistas/{id}`
     - Elimina un artista del sistema.
+    - **Quien puede usar este endpoint**
+      - Admin
     - **Errores**
       - `404 Not Found`: El artista a eliminar no se encuentra.
       - `500 Internal Server Error`: Error en el servidor al recuperar los artistas.
@@ -192,7 +215,9 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
     - **POST** `/citas`
     - Programa una nueva cita entre un usuario y un artista.
     - **Lógica de negocio**
-      - Comprobar que la fecha de la cita sea correcta (no sea para ayer o una hora que ya esté ocupada)
+         - Comprobar que la fecha de la cita sea correcta (no sea para ayer o una hora que ya esté ocupada)
+    - **Quien puede usar este endpoint**
+         - Un Usuario
     - **Errores**
         - `400 Bad Request`: los datos introducidos no son correctos.
         - `500 Internal Server Error`: Error en el servidor al recuperar las citas.
@@ -201,12 +226,16 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
 2. **Obtener todas las citas**
     - **GET** `/citas`
     - Devuelve una lista de todas las citas programadas.
+    - **Quien puede usar este endpoint**
+       - Admin
     - **Errores**
         - `500 Internal Server Error`: Error en el servidor al recuperar las citas.
 
 3. **Obtener cita por ID**
     - **GET** `/citas/{id}`
     - Devuelve la información de una cita específica.
+    - **Quien puede usar este endpoint**
+       - Admin
     - **Errores**
         - `404 Not Found`: La cita no se encuentra.
         - `500 Internal Server Error`: Error en el servidor al recuperar las citas.
@@ -214,6 +243,8 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
 4. **Obtener citas por usuario**
     - **GET** `/usuarios/{id}/citas`
     - Devuelve todas las citas asociadas a un usuario específico.
+    - **Quien puede usar este endpoint**
+       - Admin
     - **Errores**
         - `404 Not Found`: La cita del usuario no se encuentra.
         - `500 Internal Server Error`: Error en el servidor al recuperar las citas.
@@ -221,6 +252,18 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
 5. **Obtener citas por artista**
     - **GET** `/artistas/{id}/citas`
     - Devuelve todas las citas asociadas a un artista específico.
+    - **Quien puede usar este endpoint**
+         - Admin
+         - El mismo artista que busque sus citas (Lo mismo que al buscar usuario pero esta vez con un artista)
     - **Errores**
         - `404 Not Found`: La cita del artista no se encuentra.
         - `500 Internal Server Error`: Error en el servidor al recuperar las citas.
+
+6. **Eliminar Cita**
+   - **DELETE** `/citas/{id}`
+   - Elimina una cita del sistema
+   - **Quien puede usar este endpoint**
+      - Admin
+   - **Errores**
+      - `404 Not Found`: La cita a eliminar no se encuentra.
+      - `500 Internal Server Error`: Error en el servidor al recuperar los artistas.
