@@ -84,7 +84,7 @@ public class UsuarioService implements UserDetailsService {
         // Guardo en la base de datos
         repository.save(usuario);
 
-        return user; //Retorno el usuarioDto
+        return UsuarioRegistrarMapper.toDto(usuario); //Retorno el usuarioDto
 
     }
 

@@ -3,6 +3,7 @@ package com.es.LaDivaTattoo_ApiRest.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -24,11 +25,11 @@ public class Cita {
     private Artista artista;
 
     @Temporal(TemporalType.TIMESTAMP)
-   private Date fecha;
+   private LocalDateTime fecha;
 
    private String descripcion;
 
-    public Cita(long id, Usuario usuario, Artista artista, Date fecha, String descripcion) {
+    public Cita(long id, Usuario usuario, Artista artista, LocalDateTime fecha, String descripcion) {
         this.id = id;
         this.usuario = usuario;
         this.artista = artista;
@@ -36,7 +37,7 @@ public class Cita {
         this.descripcion = descripcion;
     }
 
-    public Cita(Usuario usuario, Artista artista, Date fecha, String descripcion) {
+    public Cita(Usuario usuario, Artista artista, LocalDateTime fecha, String descripcion) {
         this.usuario = usuario;
         this.artista = artista;
         this.fecha = fecha;
@@ -69,11 +70,11 @@ public class Cita {
         this.artista = artista;
     }
 
-    public Date getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 

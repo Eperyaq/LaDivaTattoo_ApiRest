@@ -3,6 +3,7 @@ package com.es.LaDivaTattoo_ApiRest.dto;
 import com.es.LaDivaTattoo_ApiRest.model.Artista;
 import com.es.LaDivaTattoo_ApiRest.model.Usuario;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class CitaDto {
@@ -13,12 +14,19 @@ public class CitaDto {
 
     private Artista artista;
 
-    private Date fecha;
+    private LocalDateTime fecha;
 
     private String descripcion;
 
-    public CitaDto(long id, Usuario usuario, Artista artista, Date fecha, String descripcion) {
+    public CitaDto(long id, Usuario usuario, Artista artista, LocalDateTime fecha, String descripcion) {
         this.id = id;
+        this.usuario = usuario;
+        this.artista = artista;
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+    }
+
+    public CitaDto(Usuario usuario, Artista artista, LocalDateTime fecha, String descripcion) {
         this.usuario = usuario;
         this.artista = artista;
         this.fecha = fecha;
@@ -51,11 +59,11 @@ public class CitaDto {
         this.artista = artista;
     }
 
-    public Date getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 

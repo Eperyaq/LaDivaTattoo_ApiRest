@@ -100,6 +100,7 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
       - Admin
     - **Errores:**
       - `404 Not Found`: No se encuentran los usuarios.
+      - `401 Unathorized`: No tiene los permisos necesarios.
 
 
 3. **Obtener usuario por ID**
@@ -110,6 +111,7 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
       - La persona logueada debe ser la misma que realiza la busqueda
    - **Errores:**
      - `404 Not Found`: Usuario no encontrado.
+     - `401 Unathorized`: No tiene los permisos necesarios.
      
      
 
@@ -251,8 +253,18 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
     - **Errores**
         - `404 Not Found`: La cita del artista no se encuentra.
         - `500 Internal Server Error`: Error en el servidor al recuperar las citas.
+        - 
+6. **Actualizar Cita**
+   - **PUT** `/citas/{id}`
+   - Actualiza una cita del sistema
+   - **Quien puede usar este endpoint**
+      - Admin
+   - **Errores**
+      - `404 Not Found`: La cita a actualizar no se encuentra.
+      - `500 Internal Server Error`: Error en el servidor al recuperar los artistas.
 
-6. **Eliminar Cita**
+
+7. **Eliminar Cita**
    - **DELETE** `/citas/{id}`
    - Elimina una cita del sistema
    - **Quien puede usar este endpoint**

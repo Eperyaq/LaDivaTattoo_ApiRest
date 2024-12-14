@@ -55,20 +55,20 @@ public class SecurityConfig {
 
                         // Endpoints protegidos (requieren autenticación)
                         .requestMatchers(HttpMethod.GET, "/usuarios/{id}").authenticated() //Que tenga el mismo nombre que el que busca
-                        .requestMatchers(HttpMethod.GET, "/usuarios").hasRole("ADMIN") //Si no que sea admin
+                        .requestMatchers(HttpMethod.GET, "/usuarios/").hasRole("ADMIN") //Si no que sea admin
                         .requestMatchers(HttpMethod.PUT, "/usuarios/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/usuarios/{id}").hasRole("ADMIN")
 
-                        .requestMatchers(HttpMethod.GET, "/artistas").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/artistas/").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/artistas/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/artistas").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/artistas/registrar").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/artistas/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/artistas/{id}").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.GET, "/citas/{id}").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/citas").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/citas").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/usuarios/{id}/citas").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/citas/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/citas/crearCita").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/usuarios/{id}/citas").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/artistas/{id}/citas").authenticated()
                         .requestMatchers(HttpMethod.GET, "/citas").hasRole("ADMIN")
 
