@@ -19,7 +19,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +27,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Servicio que gestiona las operaciones relacionadas con los usuarios.
+ * Implementa la interfaz UserDetailsService para la autenticación y autorización.
+ */
 @Service
 public class UsuarioService implements UserDetailsService {
 
@@ -38,9 +41,15 @@ public class UsuarioService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private CitasRepository citasRepository; //Instancia del repositorio de las citas para poder borrar las citas de un usuario antes de borrarlo
+    private CitasRepository citasRepository;
 
-
+    /**
+     * Carga un usuario desde el repositorio por su nombre de usuario.
+     *
+     * @param username El nombre de usuario a buscar.
+     * @return Un objeto UserDetails con la información del usuario.
+     * @throws UsernameNotFoundException Si no se encuentra el usuario.
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -52,20 +61,25 @@ public class UsuarioService implements UserDetailsService {
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.trim()))
                 .collect(Collectors.toList());
 
-        UserDetails userDetails = User // User pertenece a SpringSecurity
-                .builder()
+        UserDetails userDetails = User.builder()
                 .username(usuario.getNombre())
                 .password(usuario.getPassword())
-                .authorities(authorities) // Usar `authorities` en lugar de `roles`
+                .authorities(authorities)
                 .build();
 
         return userDetails;
     }
 
-
+    /**
+     * Crea un nuevo usuario en el sistema.
+     *
+     * @param user El objeto con los datos del usuario a registrar.
+     * @return El DTO del usuario registrado.
+     * @throws DuplicateException Si el correo electrónico o número de teléfono ya están registrados.
+     */
     public UsuarioRegistrarDto crearUser(UsuarioRegistrarDto user){
 
-        ValidarDatos.datosCorrectos(user); //valido los datos
+        ValidarDatos.datosCorrectos(user);
 
         if (repository.existsByEmail(user.getEmail())){
             throw new DuplicateException("EL usuario ya existe (Email)");
@@ -75,20 +89,21 @@ public class UsuarioService implements UserDetailsService {
             throw new DuplicateException("El usuario ya existe (NumTel)");
         }
 
-        // Creo la entidad Usuario
         Usuario usuario = UsuarioRegistrarMapper.toEntity(user);
 
-        // Hasheo la contraseña
         usuario.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        // Guardo en la base de datos
         repository.save(usuario);
 
-        return UsuarioRegistrarMapper.toDto(usuario); //Retorno el usuarioDto
-
+        return UsuarioRegistrarMapper.toDto(usuario);
     }
 
-
+    /**
+     * Obtiene todos los usuarios registrados.
+     *
+     * @return Una lista de DTOs de usuarios.
+     * @throws NotFoundException Si no hay usuarios en la base de datos.
+     */
     public List<UsuarioDto> getAll(){
 
         List<Usuario> listauser = repository.findAll();
@@ -104,6 +119,14 @@ public class UsuarioService implements UserDetailsService {
         return listaDto;
     }
 
+    /**
+     * Obtiene un usuario por su identificador.
+     *
+     * @param id El identificador del usuario.
+     * @return El DTO del usuario encontrado.
+     * @throws BadRequestException Si el identificador no es válido.
+     * @throws NotFoundException Si el usuario no se encuentra.
+     */
     public UsuarioDto getById(String id){
         Long idL;
 
@@ -113,17 +136,20 @@ public class UsuarioService implements UserDetailsService {
             throw new BadRequestException("id no válido");
         }
 
+        Usuario user = repository.findById(idL).orElseThrow(() -> new NotFoundException("Usuario no encontrado"));
 
-        //Si no encuentra ningun usuario lanza una excepcion
-       Usuario user = repository.findById(idL).orElseThrow(() -> new NotFoundException("Usuario no encontrado"));
-
-        //Si no hay ningun problema devuelve el usuario.
         return UsuarioMapper.toDto(user);
-
-
     }
 
-
+    /**
+     * Actualiza los datos de un usuario existente.
+     *
+     * @param cuerpoCambiado El DTO con los datos actualizados del usuario.
+     * @param id El identificador del usuario a actualizar.
+     * @return El DTO del usuario actualizado.
+     * @throws BadRequestException Si el identificador no es válido.
+     * @throws NotFoundException Si el usuario no se encuentra.
+     */
     public UsuarioDto update(UsuarioDto cuerpoCambiado, String id){
 
         Long idL;
@@ -134,15 +160,14 @@ public class UsuarioService implements UserDetailsService {
             throw new BadRequestException("id no válido");
         }
 
-        ValidarDatos.datosCorrectosUsuario(cuerpoCambiado); //Compruebo que los valores sean correctos y pasen los requisitos
+        ValidarDatos.datosCorrectosUsuario(cuerpoCambiado);
 
-        //busco el usuario para poder actualizarlo si no existe lanza una excepcion
         Usuario user = repository.findById(idL).orElseThrow(() -> new NotFoundException("Error, no existe el usuario"));
 
         user.setNombre(cuerpoCambiado.getNombre());
-        user.setPassword(passwordEncoder.encode(cuerpoCambiado.getPassword())); //Hasheo la contraseña nueva
+        user.setPassword(passwordEncoder.encode(cuerpoCambiado.getPassword()));
 
-        if (cuerpoCambiado.getCitas() != null && !cuerpoCambiado.getCitas().isEmpty()){ //Si no se han cambiado las citas que se quede con las que tiene
+        if (cuerpoCambiado.getCitas() != null && !cuerpoCambiado.getCitas().isEmpty()){
             user.setCitas(cuerpoCambiado.getCitas());
         }
 
@@ -155,6 +180,14 @@ public class UsuarioService implements UserDetailsService {
         return UsuarioMapper.toDto(user);
     }
 
+    /**
+     * Elimina un usuario del sistema.
+     *
+     * @param id El identificador del usuario a eliminar.
+     * @return El DTO del usuario eliminado o null si fue eliminado correctamente.
+     * @throws BadRequestException Si el identificador no es válido.
+     * @throws NotFoundException Si el usuario no se encuentra.
+     */
     public UsuarioDto delete(String id){
         Long idL;
 
@@ -164,20 +197,18 @@ public class UsuarioService implements UserDetailsService {
             throw new BadRequestException("id no válido");
         }
 
-        Usuario usuario = repository.findById(idL).orElseThrow(() -> new NotFoundException("Error, usuario no encontrado")); //busco al usuario
+        Usuario usuario = repository.findById(idL).orElseThrow(() -> new NotFoundException("Error, usuario no encontrado"));
 
-        List<Cita> citasUsuario = citasRepository.findByUsuario(usuario); //Busco las citas de ese usuario
-        citasRepository.deleteAll(citasUsuario); //Borro las citas
+        List<Cita> citasUsuario = citasRepository.findByUsuario(usuario);
+        citasRepository.deleteAll(citasUsuario);
 
-        repository.delete(usuario); //Y borro al usuario
+        repository.delete(usuario);
 
-        Usuario userBorrado = repository.findById(idL).orElse(null); //Intento buscarlo a ver si se ha borrado correctamente
+        Usuario userBorrado = repository.findById(idL).orElse(null);
 
         if (userBorrado == null) {
-            // Si es null, significa que el usuario se ha borrado correctamente
             return null;
         } else {
-            // Si no es null, significa que el usuario sigue existiendo
             return UsuarioMapper.toDto(userBorrado);
         }
     }

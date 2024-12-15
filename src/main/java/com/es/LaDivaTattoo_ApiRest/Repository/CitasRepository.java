@@ -8,13 +8,16 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 @Repository
 public interface CitasRepository extends JpaRepository<Cita, Long> {
 
-    List<Cita> findByUsuario(Usuario usuario);  //Creo esta funcion para poder borrar al usuario
+    // Busca todas las citas asociadas a un usuario específico.
+    List<Cita> findByUsuario(Usuario usuario);
 
+    // Busca todas las citas asociadas a un artista específico.
     List<Cita> findByArtista(Artista artista);
 
-
-    List<Cita> findByFecha(LocalDateTime fecha); // Buscar citas por fecha
+    // Busca citas que coinciden con una fecha específica.
+    List<Cita> findByFecha(LocalDateTime fecha);
 }

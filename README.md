@@ -77,6 +77,8 @@ Facilita la organización y seguimiento de las citas programadas en el sistema.
 
 # EndPoints
 
+**LOS UNICOS ENDPOINTS "LIBRES" SON LOGIN Y REGISTRARSE, LOS DEMÁS SERÁ NECESARIO ESTAR COMO MINIMO AUTENTICADO**
+
 ## **Usuarios**
 
 1. **Crear usuario**

@@ -5,31 +5,54 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+/**
+ * Clase que representa un usuario en la aplicación.
+ * <p>
+ * Esta clase se mapea a una tabla de base de datos llamada "usuarios", y contiene información
+ * sobre el usuario, como su nombre, correo electrónico, número de teléfono, roles y citas
+ * asociadas.
+ * </p>
+ */
 @Entity
-@Table (name = "usuarios")
+@Table(name = "usuarios")
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id;  // Identificador único del usuario.
 
-    private String nombre;
+    private String nombre;  // Nombre completo del usuario.
 
     @Column(unique = true)
-    private String email;
+    private String email;  // Correo electrónico único del usuario.
 
-    private String password;
+    private String password;  // Contraseña del usuario.
+
     @Column(unique = true, name = "numero_telefono")
-    private String numtel;
+    private String numtel;  // Número de teléfono del usuario.
 
-    private String roles;
+    private String roles;  // Roles asignados al usuario (por ejemplo, "ADMIN", "USER").
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
-    @JsonIgnore //Le pongo esto porque si no se me crea un bucle infinito en la respuesta y me aparece el usuario completo en cada cita
-    private List<Cita> citas;
+    @JsonIgnore // Evita el bucle infinito al serializar el usuario de cada cita
+    private List<Cita> citas;  // Lista de citas asociadas al usuario.
 
+    /**
+     * Constructor vacío necesario para JPA.
+     */
     public Usuario() {}
 
+    /**
+     * Constructor completo para la creación de un usuario con todos los parámetros.
+     *
+     * @param id El identificador del usuario.
+     * @param nombre El nombre completo del usuario.
+     * @param email El correo electrónico único del usuario.
+     * @param password La contraseña del usuario.
+     * @param numtel El número de teléfono del usuario.
+     * @param roles Los roles asignados al usuario.
+     * @param citas Las citas asociadas al usuario.
+     */
     public Usuario(Long id, String nombre, String email, String password, String numtel, String roles, List<Cita> citas) {
         this.id = id;
         this.nombre = nombre;
@@ -40,6 +63,16 @@ public class Usuario {
         this.citas = citas;
     }
 
+    /**
+     * Constructor para la creación de un usuario sin el identificador (para nuevos usuarios).
+     *
+     * @param nombre El nombre completo del usuario.
+     * @param email El correo electrónico único del usuario.
+     * @param password La contraseña del usuario.
+     * @param numtel El número de teléfono del usuario.
+     * @param roles Los roles asignados al usuario.
+     * @param citas Las citas asociadas al usuario.
+     */
     public Usuario(String nombre, String email, String password, String numtel, String roles, List<Cita> citas) {
         this.nombre = nombre;
         this.email = email;
@@ -48,6 +81,8 @@ public class Usuario {
         this.roles = roles;
         this.citas = citas;
     }
+
+    // Métodos getter y setter
 
     public Long getId() {
         return id;

@@ -23,9 +23,17 @@ public class CitaService {
     @Autowired
     private CitasRepository repository;
 
+    /**
+     * Crea una nueva cita.
+     *
+     * @param citaDto DTO que contiene la información de la cita.
+     * @return CitaDto que representa la cita creada.
+     * @throws BadRequestException Si la fecha de la cita es pasada.
+     * @throws DuplicateException Si ya existe una cita para esa fecha.
+     */
     public CitaDto crearCita(CitaDto citaDto){
 
-        // Verificar que la fecha no sea para ayer
+        // Verificar que la fecha no sea para ayer o una fecha pasada
         if (citaDto.getFecha().isBefore(LocalDateTime.now())) {
             throw new BadRequestException("La fecha no puede ser para ayer o una fecha pasada.");
         }
@@ -43,13 +51,18 @@ public class CitaService {
         cita.setUsuario(citaDto.getUsuario());
         cita.setArtista(citaDto.getArtista());
 
-        repository.save(cita);
+        repository.save(cita); // Guardamos la cita en la base de datos
 
         // Retornar el DTO de la cita creada
         return CitaMapper.toDto(cita);
-
     }
 
+    /**
+     * Obtiene todas las citas registradas.
+     *
+     * @return Lista de CitaDto que representan todas las citas.
+     * @throws NotFoundException Si no se encuentran citas.
+     */
     public List<CitaDto> getAll(){
 
         List<Cita> citas = repository.findAll();
@@ -65,7 +78,14 @@ public class CitaService {
         return listaDto;
     }
 
-
+    /**
+     * Obtiene una cita por su ID.
+     *
+     * @param id ID de la cita.
+     * @return CitaDto que representa la cita encontrada.
+     * @throws BadRequestException Si el ID no es válido.
+     * @throws NotFoundException Si no se encuentra la cita con el ID proporcionado.
+     */
     public CitaDto getById(String id){
         Long idL;
 
@@ -81,6 +101,12 @@ public class CitaService {
         return CitaMapper.toDto(cita);
     }
 
+    /**
+     * Obtiene todas las citas asociadas a un usuario.
+     *
+     * @param usuario Usuario para buscar las citas.
+     * @return Lista de CitaDto asociadas al usuario.
+     */
     public List<CitaDto> obtenerCitasPorUsuario(Usuario usuario) {
 
         List<Cita> citas = repository.findByUsuario(usuario);
@@ -89,12 +115,15 @@ public class CitaService {
 
         citas.forEach(cita -> dtos.add(CitaMapper.toDto(cita)));
 
-
         return  dtos;
     }
 
-
-
+    /**
+     * Obtiene todas las citas asociadas a un artista.
+     *
+     * @param artista Artista para buscar las citas.
+     * @return Lista de CitaDto asociadas al artista.
+     */
     public List<CitaDto> obtenerCitasPorArtista(Artista artista) {
         List<Cita> citas = repository.findByArtista(artista);
 
@@ -105,6 +134,15 @@ public class CitaService {
         return  dtos;
     }
 
+    /**
+     * Actualiza una cita existente.
+     *
+     * @param id ID de la cita a actualizar.
+     * @param citaDTO DTO con los datos actualizados de la cita.
+     * @return CitaDto que representa la cita actualizada.
+     * @throws BadRequestException Si el ID no es válido.
+     * @throws NotFoundException Si no se encuentra la cita con el ID proporcionado.
+     */
     public CitaDto update(String id, CitaDto citaDTO) {
 
         Long idL;
@@ -119,11 +157,8 @@ public class CitaService {
         Cita cita = repository.findById(idL).orElseThrow(() -> new NotFoundException("La cita con ID " + id + " no se encuentra"));
 
         // Actualizar los campos necesarios
-
         cita.setFecha(citaDTO.getFecha());
-
         cita.setDescripcion(citaDTO.getDescripcion());
-
 
         // Guardamos los cambios hechos
         Cita citaActualizada = repository.save(cita);
@@ -132,9 +167,14 @@ public class CitaService {
         return CitaMapper.toDto(citaActualizada);
     }
 
-
-
-
+    /**
+     * Elimina una cita por su ID.
+     *
+     * @param id ID de la cita a eliminar.
+     * @return CitaDto que representa la cita eliminada o null si no se encontró.
+     * @throws BadRequestException Si el ID no es válido.
+     * @throws NotFoundException Si no se encuentra la cita con el ID proporcionado.
+     */
     public CitaDto delete(String id){
         Long idL;
 
@@ -152,10 +192,9 @@ public class CitaService {
 
         if (citaBorrada == null){
             return null;
-        }else {
+        } else {
             return CitaMapper.toDto(citaBorrada);
         }
-
     }
 
 }
